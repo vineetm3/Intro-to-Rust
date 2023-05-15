@@ -1,0 +1,126 @@
+This chapter goes over the basic principles of programming in the context of Rust 
+
+3.1: Variables and Mutability 
+//we need to set variables to mut if we wish to change their values in the future to same type 
+fn main() {
+    let mut x = 5;
+    println!("The value of x is: {}", x);
+    x = 6;
+    println!("The value of x is: {}", x);
+}
+
+//we can declare new variables with same name to save space 
+fn main() {
+    let x = 5;
+
+    let x = x + 1;
+
+    let x = x * 2;
+
+    println!("The value of x is: {}", x);
+}
+
+//you can change type using the above technique 
+fn main() {
+    let spaces = "   ";
+    let spaces = spaces.len();
+}
+
+//however if you put mut you can only change the value and not the type 
+fn main() {
+    let mut spaces = "   ";
+    let spaces = spaces.len();
+}
+
+3.2: Data Types 
+Pretty standard stuff, only main difference is that Rust you can specify int sizes 
+to be either 32 bit or 64 bit. Rust defaults to 64 bit for double precision but you can use 
+32 bit if needed. 
+
+There are two types of data types: scalar and compound. Scalar are the basic ones like
+int, float, char, and bool. Compound are tuples and arrays. 
+
+3.3: Functions 
+Just like in other programming languages main is the entry point into a Rust program. 
+
+//these are normal functions in Rust 
+fn main() {
+    println!("Hello, world!");
+
+    another_function();
+}
+
+fn another_function() {
+    println!("Another function.");
+}
+
+In Rust everything is snake case meaning its lowercase and space is specified by an underscore. Also, 
+there is a big difference between statements and expressions. Statements don't return anything 
+while in expressions they do. Putting a ';' after a expression makes it a statement. 
+
+3.4: Comments 
+To make comments preface your words with a '//'
+
+3.5: Control Flow 
+//how to use if statements in Rust 
+fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!("number is divisible by 4");
+    } else if number % 3 == 0 {
+        println!("number is divisible by 3");
+    } else if number % 2 == 0 {
+        println!("number is divisible by 2");
+    } else {
+        println!("number is not divisible by 4, 3, or 2");
+    }
+}
+
+//you can bind data to values through conditional. However, must be same type! '6' won't work 
+fn main() {
+    let condition = true;
+    let number = if condition {
+        5
+    } else {
+        6
+    };
+
+    println!("The value of number is: {}", number);
+}
+
+//example of an infinite for loop; could use break though 
+fn main() {
+    loop {
+        println!("again!");
+    }
+}
+
+//example of how to use a while loop 
+fn main() {
+    let mut number = 3;
+
+    while number != 0 {
+        println!("{}!", number);
+
+        number = number - 1;
+    }
+
+    println!("LIFTOFF!!!");
+}
+
+//below are two examples of how to use a for loop in rust 
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    for element in a.iter() {
+        println!("the value is: {}", element);
+    }
+}
+
+fn main() {
+    for number in (1..4).rev() {
+        println!("{}!", number);
+    }
+    println!("LIFTOFF!!!");
+}

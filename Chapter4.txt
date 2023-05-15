@@ -1,0 +1,81 @@
+In this chapter we will discuss ownership which is unique to Rust. This removes the need for 
+a garbage collector. 
+
+4.1: What is Ownership
+Each variable has ownership which essentially means that it is able to be used 
+within a certain scope. Once it exits that scope it will be dropped (freed) automatically. 
+
+fn main() {
+    let s = String::from("hello");  // s comes into scope.
+
+    takes_ownership(s);             // s's value moves into the function...
+                                    // ... and so is no longer valid here.
+
+    let x = 5;                      // x comes into scope.
+
+    makes_copy(x);                  // x would move into the function,
+                                    // but i32 is Copy, so it’s okay to still
+                                    // use x afterward.
+
+} // Here, x goes out of scope, then s. But since s's value was moved, nothing
+  // special happens.
+
+fn takes_ownership(some_string: String) { // some_string comes into scope.
+    println!("{}", some_string);
+} // Here, some_string goes out of scope and `drop` is called. The backing
+  // memory is freed.
+
+fn makes_copy(some_integer: i32) { // some_integer comes into scope.
+    println!("{}", some_integer);
+} // Here, some_integer goes out of scope. Nothing special happens.
+
+Note if you reassign a variable, the older variable will no longer be accessible because 
+the new variable stores the exact same data. This is only for heap stuff though. Data 
+stored on the stack is trivial thus making a shallow vs deep copy is the same. Rust 
+defaults to shallow copies whenever possible. 
+
+4.2: References and Borrowing
+//we pass a reference of s which is fine, but we can't change it since it is not mutable 
+fn main() {
+    let s = String::from("hello");
+
+    change(&s);
+}
+
+fn change(some_string: &String) {
+    some_string.push_str(", world");
+}
+
+//we make a slight adjustment and make s a mutable type so we can change the value 
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
+
+//we can't bind references to multiple variables as this causes a data race 
+let mut s = String::from("hello");
+
+let r1 = &s; // no problem
+let r2 = &s; // no problem
+let r3 = &mut s; // BIG PROBLEM
+
+//once dangle() is done, s is dropped meaning the reference no longer exists. 
+//we should just leave it as s and pass the ownership to main()
+fn main() {
+    let reference_to_nothing = dangle();
+}
+
+fn dangle() -> &String {
+    let s = String::from("hello");
+
+    &s
+}
+
+4.3: Slices 
+You can splice strings or arrays etc which causes a function to be "binded" to a variable. 
+So you can't mess with the variabe without the compiler complaining about the splice as well. 
