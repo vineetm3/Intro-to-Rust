@@ -1,0 +1,5 @@
+1) cargo build -> compiles the rust code and puts executable in target/debug
+2) cargo new folderName -> makes a cargo development 
+3) cargo check -> only compiles 
+4) cargo run -> compiles and runs executable in one step 
+5) cargo build --release -> slow compilation time but fast executable for production
